@@ -152,38 +152,38 @@ void pembayaran() {
     } while (choice != 0);
 }
 
-int main() {
-    int choice, nomorMeja;
-    string nama;
-    bool running = true;
+// int main() {
+//     int choice, nomorMeja;
+//     string nama;
+//     bool running = true;
 
-    identitas(nama, nomorMeja);
+//     identitas(nama, nomorMeja);
 
-    while (running) {
-        beranda();
-        choice = getValidIntegerInput("");
+//     while (running) {
+//         beranda();
+//         choice = getValidIntegerInput("");
 
-        switch (choice) {
-            case 1:
-                tampilkanDaftarMenu();
-                break;
-            case 2:
-                keranjang();
-                break;
-            case 3:
-                pembayaran();
-                break;
-            case 4:
-                running = false;
-                clearScreen();
-                cout << "\nTerima kasih.\n";
-                break;
-            default:
-                cout << "\nPilihan salah! Coba ulangi kembali.\n";
-                system("pause");
-                break;
-        }
-    }
+//         switch (choice) {
+//             case 1:
+//                 tampilkanDaftarMenu();
+//                 break;
+//             case 2:
+//                 keranjang();
+//                 break;
+//             case 3:
+//                 pembayaran();
+//                 break;
+//             case 4:
+//                 running = false;
+//                 clearScreen();
+//                 cout << "\nTerima kasih.\n";
+//                 break;
+//             default:
+//                 cout << "\nPilihan salah! Coba ulangi kembali.\n";
+//                 system("pause");
+//                 break;
+//         }
+//     }
 
-    return 0;
-}
+//     return 0;
+// }

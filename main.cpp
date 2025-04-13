@@ -84,9 +84,7 @@ Pesanan pesanan[maksPesanan];
 int jumlahPesanan = 0;
 
 void tampilkanDaftarMenu() {
-    int pilihan, qty;
-    char lanjut;
-    
+    int pilihan, qty;  
     do {
         clearScreen();
         cout << "---------------Daftar Menu-------------\n\n";
@@ -113,11 +111,46 @@ void tampilkanDaftarMenu() {
         } else {
             cout << "ID salah.\n";
         }
-        
-        cout << "\nTambahkan menu lain? (y/n): ";
-        cin >> lanjut;
-    } while (lanjut == 'y' || lanjut == 'Y');
+   } while (pilihan == 0);
 }
+
+void next(){
+    char lanjut;
+
+
+    cout << "\n tambahkan menu lain? (y/n): ";
+    cin >> lanjut;
+    while (lanjut == 'y'){
+        tampilkanDaftarMenu();
+    }
+    while (lanjut =='y' || lanjut == 'Y');
+}
+
+void penambahanMenu(){
+    tampilkanDaftarMenu();
+    next();
+};
+
+void penguranganMenu(){
+    int pilihan, qty;
+    
+    pilihan = getValidIntegerInput("\nMasukkan ID menu yang dipilih (0 untuk kembali): ");
+        if (pilihan >= 1 && pilihan <= jumlahMenu) {
+            qty = getValidIntegerInput("Masukkan jumlah: ");
+            if (qty > 0 && qty <= 100) {
+                pesanan[jumlahPesanan--] = {pilihan, qty};
+            } else {
+                cout << "Jumlah tidak valid.\n";
+            }
+        } else {
+            cout << "ID salah.\n";
+        }
+        for (int i = 0; i < jumlahPesanan; i--) {
+            cout << "Pesanan " << i + 1 << " - ID: " << pesanan[i].id
+                 << ", Jumlah: " << pesanan[i].qty << endl;
+        }
+}
+
 
 //==========KERANJANG==========//
 void keranjang() {
@@ -138,12 +171,19 @@ void keranjang() {
             }
         }
         
-        cout << "Apakah anda ingin menambah pesannya (y/n):"<< endl;
-        cin >> lanjut;
+        cout << "---------- Add or Remove --------------"<< endl;
+        cout << " 1. Add " << endl;
+        cout << " 2. Remove " << endl;
+        cout << " 0. Keluar " << endl;
+
 
         choice = getValidIntegerInput("\n0 untuk kembali ke menu utama: ");
         if (choice == 0){
             break;
+        }if (choice == 1){
+            penambahanMenu();
+        }if (choice == 2){
+            penguranganMenu();
         }
 
     } while (lanjut == 'y' || lanjut == 'Y');

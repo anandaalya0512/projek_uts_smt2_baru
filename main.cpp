@@ -122,6 +122,7 @@ void tampilkanDaftarMenu() {
 //==========KERANJANG==========//
 void keranjang() {
     int choice;
+    char lanjut;
 
     do {
         clearScreen();
@@ -136,10 +137,16 @@ void keranjang() {
                      << ", Jumlah: " << pesanan[i].qty << endl;
             }
         }
+        
+        cout << "Apakah anda ingin menambah pesannya (y/n):"<< endl;
+        cin >> lanjut;
 
         choice = getValidIntegerInput("\n0 untuk kembali ke menu utama: ");
+        if (choice == 0){
+            break;
+        }
 
-    } while (choice != 0);
+    } while (lanjut == 'y' || lanjut == 'Y');
 }
 
 //==========PEMBAYARAN==========//

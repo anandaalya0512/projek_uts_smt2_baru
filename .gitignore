@@ -1,0 +1,8 @@
+# Build output
+program/
+
+#object files
+*. vscode
+
+#Executables
+*.exe

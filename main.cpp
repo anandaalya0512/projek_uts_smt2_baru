@@ -190,6 +190,8 @@ void removeLast() {
  
      do {
          clearScreen();
+         cout << "FITUR PEMBAYARAN MASIH DALAM PENGEMBANGAN" << endl;
+         choice = getValidIntegerInput("Tekan '0' untuk kembali ke menu utama: ");
          cout << "--------------- Pembayaran ---------------\n\n";
  
          if(jumlahPesanan == 0){

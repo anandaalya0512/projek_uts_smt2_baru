@@ -118,14 +118,56 @@
          cin >> lanjut;
      } while (lanjut == 'y' || lanjut == 'Y');
  }
- 
+ void insertLast(int menuID, int quantity) {
+    if (jumlahPesanan < maksPesanan) {
+        pesanan[jumlahPesanan].id = menuID;
+        pesanan[jumlahPesanan].qty = quantity;
+        jumlahPesanan++;
+    } else {
+        cout << "Keranjang sudah penuh.\n";
+    }
+}
+
+void inputMenutambahan() {
+    int id, qty;
+
+    cout << "Masukkan ID Menu yang ingin dipesan: ";
+    cin >> id;
+
+    cout << "Masukkan jumlah pesanan: ";
+    cin >> qty;
+
+    insertLast(id, qty);
+}
+
+void removebyId(int id){
+    bool found = false;
+
+    for (int i = 0; i < jumlahPesanan; i++) {
+        if (pesanan[i].id == id){
+            found = true;
+
+        for (int j = 0; j < jumlahPesanan - 1; j++){
+            pesanan[j] = pesanan [j+1];
+        }
+        jumlahPesanan--;
+        
+        cout << "Pesanan with ID " << id << "Telah dihapus\n";
+        break;
+        }
+        
+        if (!found){
+            cout << "Pesanan atas Id " <<id<< "tidak ada\n";
+        }
+    }
+}
+
  //==========KERANJANG==========//
  void keranjang() {
      int choice;
  
      do {
          clearScreen();
-         cout << "-----FITUR MASIH DALAM TAHAP PENGEMBANGAN-----\n\n";
          cout << "--------------- Keranjang Anda ---------------\n\n";
  
          if (jumlahPesanan == 0) {
@@ -136,9 +178,21 @@
                       << ", Jumlah: " << pesanan[i].qty << endl;
              }
          }
- 
-         choice = getValidIntegerInput("\n0 untuk kembali ke menu utama: ");
- 
+         
+         cout << "---------------------------------------------------" << endl;
+        cout << "Pilihan : " << endl;
+        cout << "0 Kembali ke menu utama\n 1 Tambah pesanan\n 2 Hapus pesanan \n";
+
+        choice = getValidIntegerInput("\nMasukkan pilihan : ");
+
+        if (choice == 1) {
+            inputMenutambahan();
+        }
+        if (choice == 2) {
+            int id;
+            cout << "Masukan id yang akan dihapus: "; cin >> id;
+            removebyId(id);
+        }
      } while (choice != 0);
  }
  

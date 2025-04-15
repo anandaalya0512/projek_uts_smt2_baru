@@ -142,73 +142,85 @@
      } while (choice != 0);
  }
  
- //==========PEMBAYARAN==========//
- void pembayaran() {
-     int choice;
-     char lanjut;
- 
-     do {
-         clearScreen();
-         cout << "FITUR PEMBAYARAN MASIH DALAM PENGEMBANGAN" << endl;
-         choice = getValidIntegerInput("Tekan '0' untuk kembali ke menu utama: ");
-         cout << "--------------- Pembayaran ---------------\n\n";
- 
-         if(jumlahPesanan == 0){
-             cout << "Keranjang masih kosong \n";
-         }
-         else {
-             cout << "Daftar Pesanan Anda:\n";
-             cout << "\nID\tNama Makanan\t\tJumlah\tHarga\n";
-             cout << "--------------------------------------------\n";
-             
-             for (int i = 0; i < jumlahPesanan; i++) {
-                 int id = pesanan[i].id - 1;
-                 cout << daftarMenu[id].nama << "\t\t" 
-                      << pesanan[i].qty << "\tRp " 
-                      << daftarMenu[id].harga * pesanan[i].qty << endl;
-             }
-             cout << "\nApakah ingin melakukan pembayaran? (y/n): ";
-             cin >> lanjut;
-             if(lanjut == 'y' || lanjut == 'Y') {
-                 cout << "\nPilih metode pembayaran: \n";
-                 cout << "1. Tunai\n";
-                 cout << "2. Kartu Kredit\n";
-                 cout << "3. E-Wallet atau Transfer Bank\n";
-                 
-                 int metode = getValidIntegerInput("Masukkan pilihan (1-3): \n");
-                 if (metode < 1 || metode > 3) {
-                     cout << "Pilihan tidak valid.\n";
-                     continue;
-                 }
-                 if (metode == 1){
-                     cout << "Silahkan pergi ke kasir untuk melakukan pembayaran.\n";
-                     
-                 }
-                 else if (metode == 2){
-                     cout << "Silahkan pilih kartu kredit Anda untuk melakukan pembayaran.\n";
-                     cout << "1. BCA\n";
-                     cout << "2. Mandiri\n";
-                     cout << "3. BRI\n";
-                     cout << "4. BNI\n";
-                     int kartu = getValidIntegerInput("Masukkan pilihan (1-4): \n");
-                     if (kartu <= 4 && kartu >= 1){
-                         cout << "Silahkan menunggu pegawai datang untuk melakukan pembayaran.\n"; 
-                     }
-                     else {
-                         cout << "Pilihan tidak valid.\n";
-                         continue;
-                     }
-                 }
-                 else if (metode == 3){
-                     cout << "Silahkan untuk meng-scan QR untuk melakukan pembayaran.\n";
-                     
-                 }
-                 }
-         }        
-           
-         choice = getValidIntegerInput("Tekan '0' untuk kembali ke menu utama: \n");
-     } while (choice != 0);
- }
+//==========PEMBAYARAN==========//
+void pembayaran() {
+    int choice;
+    char lanjut;
+
+    do {
+        clearScreen();
+        cout << "--------------- Pembayaran ---------------\n\n";
+
+        if (jumlahPesanan == 0) {
+            cout << "Keranjang masih kosong \n";
+        } else {
+            cout << "Daftar Pesanan Anda:\n";
+            cout << "\nID\tNama Makanan\t\tJumlah\tHarga\n";
+            cout << "--------------------------------------------\n";
+
+            double totalHarga = 0.0; 
+
+            for (int i = 0; i < jumlahPesanan; i++) {
+                int id = pesanan[i].id - 1;
+                double hargaItem = daftarMenu[id].harga * pesanan[i].qty;
+                totalHarga += hargaItem; 
+                cout << daftarMenu[id].nama << "\t\t" 
+                     << pesanan[i].qty << "\tRp " 
+                     << hargaItem << endl;
+            }
+
+            cout << "--------------------------------------------\n";
+            cout << "Total Harga: Rp " << totalHarga << endl; 
+
+            while (true) {
+                cout << "\nApakah ingin melakukan pembayaran? (y/n): ";
+                cin >> lanjut;
+
+                
+                if (cin.fail() || (lanjut != 'y' && lanjut != 'Y' && lanjut != 'n' && lanjut != 'N')) {
+                    cin.clear(); 
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                    cout << "Input tidak valid! Harap masukkan 'y' atau 'n'.\n";
+                } else {
+                    break; 
+                }
+            }
+
+            if (lanjut == 'y' || lanjut == 'Y') {
+                cout << "\nPilih metode pembayaran: \n";
+                cout << "1. Tunai\n";
+                cout << "2. Kartu Kredit\n";
+                cout << "3. E-Wallet atau Transfer Bank\n";
+
+                int metode = getValidIntegerInput("Masukkan pilihan (1-3): \n");
+                if (metode < 1 || metode > 3) {
+                    cout << "Pilihan tidak valid.\n";
+                    continue;
+                }
+                if (metode == 1) {
+                    cout << "Silahkan pergi ke kasir untuk melakukan pembayaran.\n";
+                } else if (metode == 2) {
+                    cout << "Silahkan pilih kartu kredit Anda untuk melakukan pembayaran.\n";
+                    cout << "1. BCA\n";
+                    cout << "2. Mandiri\n";
+                    cout << "3. BRI\n";
+                    cout << "4. BNI\n";
+                    int kartu = getValidIntegerInput("Masukkan pilihan (1-4): \n");
+                    if (kartu <= 4 && kartu >= 1) {
+                        cout << "Silahkan menunggu pegawai datang untuk melakukan pembayaran.\n"; 
+                    } else {
+                        cout << "Pilihan tidak valid.\n";
+                        continue;
+                    }
+                } else if (metode == 3) {
+                    cout << "Silahkan untuk meng-scan QR untuk melakukan pembayaran.\n";
+                }
+            }
+        }
+
+        choice = getValidIntegerInput("Tekan '0' untuk kembali ke menu utama: \n");
+    } while (choice != 0);
+}
  
  int main() {
      int choice, nomorMeja;

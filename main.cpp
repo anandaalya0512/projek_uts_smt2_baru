@@ -1,6 +1,7 @@
 #include <iostream>
- #include <string>
- #include <limits>
+#include <string>
+#include <limits>
+#include <malloc.h>
  
  using namespace std;
  
@@ -59,7 +60,16 @@
      int id;
      int qty;
  };
- 
+
+ struct node {
+    Pesanan data;
+    node *next;
+    node *prev;
+};
+
+ node *head = NULL;
+ node *tail = NULL;
+
  const int jumlahMenu = 15;
  MenuItem daftarMenu[jumlahMenu] = {
      {1, "Nasi Goreng", 25000},
@@ -79,6 +89,18 @@
      {15, "Jus Mangga", 13000}
  };
  
+ void insertLast(int menuID, int quantity) {
+    node *new_node = new node{{menuID, quantity}, NULL, NULL};
+
+    if (!head) {
+        head = tail = new_node;
+    } else {
+        tail->next = new_node;
+        new_node->prev = tail;
+        tail = new_node;
+    }
+}
+
  const int maksPesanan = 100;
  Pesanan pesanan[maksPesanan];
  int jumlahPesanan = 0;
@@ -106,7 +128,7 @@
          if (pilihan >= 1 && pilihan <= jumlahMenu) {
              qty = getValidIntegerInput("Masukkan jumlah: ");
              if (qty > 0 && qty <= 100) {
-                 pesanan[jumlahPesanan++] = {pilihan, qty};
+                insertLast(pilihan, qty);
              } else {
                  cout << "Jumlah tidak valid.\n";
              }
@@ -118,48 +140,49 @@
          cin >> lanjut;
      } while (lanjut == 'y' || lanjut == 'Y');
  }
- void insertLast(int menuID, int quantity) {
-    if (jumlahPesanan < maksPesanan) {
-        pesanan[jumlahPesanan].id = menuID;
-        pesanan[jumlahPesanan].qty = quantity;
-        jumlahPesanan++;
-    } else {
-        cout << "Keranjang sudah penuh.\n";
+
+void tampilkanKeranjang() {
+    node* current = head;
+    int i = 1;
+    if (!current) {
+        cout << "Keranjang masih kosong.\n";
+        return;
+    }
+    while (current) {
+        cout << "Pesanan " << i++ << " - ID: " << current->data.id
+             << ", Jumlah: " << current->data.qty << endl;
+        current = current->next;
     }
 }
 
 void inputMenutambahan() {
-    int id, qty;
-
-    cout << "Masukkan ID Menu yang ingin dipesan: ";
-    cin >> id;
-
-    cout << "Masukkan jumlah pesanan: ";
-    cin >> qty;
-
+    int id = getValidIntegerInput("Masukkan ID Menu yang ingin dipesan: ");
+    int qty = getValidIntegerInput("Masukkan jumlah pesanan: ");
     insertLast(id, qty);
 }
 
-void removebyId(int id){
-    bool found = false;
+void removebyId(int id) {
+    node *current = head;
+    while (current) {
+        if (current->data.id == id) {
 
-    for (int i = 0; i < jumlahPesanan; i++) {
-        if (pesanan[i].id == id){
-            found = true;
+            if (current->prev)
+                current->prev->next = current->next;
+            else
+                head = current->next;
 
-        for (int j = 0; j < jumlahPesanan - 1; j++){
-            pesanan[j] = pesanan [j+1];
+            if (current->next)
+                current->next->prev = current->prev;
+            else
+                tail = current->prev;
+
+            delete current;
+            cout << "Pesanan dengan ID " << id << " telah dihapus\n";
+            return;
         }
-        jumlahPesanan--;
-        
-        cout << "Pesanan with ID " << id << "Telah dihapus\n";
-        break;
-        }
-        
-        if (!found){
-            cout << "Pesanan atas Id " <<id<< "tidak ada\n";
-        }
+        current = current->next;
     }
+    cout << "Pesanan atas ID " << id << " tidak ditemukan\n";
 }
 
  //==========KERANJANG==========//
@@ -167,17 +190,12 @@ void removebyId(int id){
      int choice;
  
      do {
-         clearScreen();
-         cout << "--------------- Keranjang Anda ---------------\n\n";
- 
-         if (jumlahPesanan == 0) {
-             cout << "Keranjang masih kosong.\n";
-         } else {
-             for (int i = 0; i < jumlahPesanan; i++) {
-                 cout << "Pesanan " << i + 1 << " - ID: " << pesanan[i].id
-                      << ", Jumlah: " << pesanan[i].qty << endl;
-             }
-         }
+
+        if (!head) {
+            cout << "Keranjang masih kosong.\n";
+        } else {
+            tampilkanKeranjang(); // gunakan ini saja
+        }
          
          cout << "---------------------------------------------------" << endl;
         cout << "Pilihan : " << endl;
@@ -205,22 +223,27 @@ void pembayaran() {
         clearScreen();
         cout << "--------------- Pembayaran ---------------\n\n";
 
-        if (jumlahPesanan == 0) {
+        if (!head) {
             cout << "Keranjang masih kosong \n";
         } else {
             cout << "Daftar Pesanan Anda:\n";
             cout << "\nID\tNama Makanan\t\tJumlah\tHarga\n";
             cout << "--------------------------------------------\n";
 
-            double totalHarga = 0.0; 
+            double totalHarga = 0.0;
+            node* current = head; 
 
-            for (int i = 0; i < jumlahPesanan; i++) {
-                int id = pesanan[i].id - 1;
-                double hargaItem = daftarMenu[id].harga * pesanan[i].qty;
-                totalHarga += hargaItem; 
-                cout << daftarMenu[id].nama << "\t\t" 
-                     << pesanan[i].qty << "\tRp " 
+            while (current) {
+                int id = current->data.id - 1;
+                double hargaItem = daftarMenu[id].harga * current->data.qty;
+                totalHarga += hargaItem;
+
+                cout << daftarMenu[id].id << "\t" 
+                     << daftarMenu[id].nama << "\t\t" 
+                     << current->data.qty << "\tRp " 
                      << hargaItem << endl;
+
+                current = current->next;
             }
 
             cout << "--------------------------------------------\n";

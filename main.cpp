@@ -106,40 +106,45 @@
  int jumlahPesanan = 0;
  
  void tampilkanDaftarMenu() {
-     int pilihan, qty;
-     char lanjut;
- 
-     do {
-         clearScreen();
-         cout << "---------------Daftar Menu-------------\n\n";
-         cout << "ID\tNama Makanan\t\tHarga\n";
-         cout << "---------------------------------------\n";
- 
-         for (int i = 0; i < jumlahMenu; i++) {
-             cout << daftarMenu[i].id << "\t" 
-                  << daftarMenu[i].nama << "\t\tRp " 
-                  << daftarMenu[i].harga << endl;
-         }
- 
-         pilihan = getValidIntegerInput("\nMasukkan ID menu yang dipilih (0 untuk kembali): ");
- 
-         if (pilihan == 0) break;
- 
-         if (pilihan >= 1 && pilihan <= jumlahMenu) {
-             qty = getValidIntegerInput("Masukkan jumlah: ");
-             if (qty > 0 && qty <= 100) {
+    int pilihan, qty;
+    int lanjut;
+
+    do {
+        clearScreen();
+        cout << "---------------Daftar Menu-------------\n\n";
+        cout << "ID\tNama Makanan\t\tHarga\n";
+        cout << "---------------------------------------\n";
+
+        for (int i = 0; i < jumlahMenu; i++) {
+            cout << daftarMenu[i].id << "\t" 
+                 << daftarMenu[i].nama << "\t\tRp " 
+                 << daftarMenu[i].harga << endl;
+        }
+
+        pilihan = getValidIntegerInput("\nMasukkan ID menu yang dipilih (0 untuk kembali): ");
+
+        if (pilihan == 0) break;
+
+        if (pilihan >= 1 && pilihan <= jumlahMenu) {
+            qty = getValidIntegerInput("Masukkan jumlah: ");
+            if (qty > 0 && qty <= 100) {
                 insertLast(pilihan, qty);
-             } else {
-                 cout << "Jumlah tidak valid.\n";
-             }
-         } else {
-             cout << "ID salah.\n";
-         }
- 
-         cout << "\nTambahkan menu lain? (y/n): ";
-         cin >> lanjut;
-     } while (lanjut == 'y' || lanjut == 'Y');
- }
+            } else {
+                cout << "Jumlah tidak valid.\n";
+            }
+        } else {
+            cout << "ID salah.\n";
+        }
+        do {
+            lanjut = getValidIntegerInput("\nTambahkan menu lain? (1 untuk tambah / 0 untuk kembali): ");
+            if (lanjut != 1 && lanjut != 0) {
+                cout << "Pilihan tidak valid.\n";
+            }
+        } while (lanjut != 1 && lanjut != 0);
+
+    } while (lanjut == 1);
+}
+
 
 void tampilkanKeranjang() {
     node* current = head;

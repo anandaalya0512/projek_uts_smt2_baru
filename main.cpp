@@ -58,6 +58,7 @@
  
  struct Pesanan {
      int id;
+     string nama;
      int qty;
  };
 
@@ -89,8 +90,8 @@
      {15, "Jus Mangga", 13000}
  };
  
- void insertLast(int menuID, int quantity) {
-    node *new_node = new node{{menuID, quantity}, NULL, NULL};
+ void insertLast(int menuID, string nama, int quantity) {
+    node *new_node = new node{{menuID, nama, quantity}, NULL, NULL};
 
     if (!head) {
         head = tail = new_node;
@@ -128,7 +129,7 @@
         if (pilihan >= 1 && pilihan <= jumlahMenu) {
             qty = getValidIntegerInput("Masukkan jumlah: ");
             if (qty > 0 && qty <= 100) {
-                insertLast(pilihan, qty);
+                insertLast(pilihan, daftarMenu[pilihan - 1].nama, qty);
             } else {
                 cout << "Jumlah tidak valid.\n";
             }
@@ -155,6 +156,7 @@ void tampilkanKeranjang() {
     }
     while (current) {
         cout << "Pesanan " << i++ << " - ID: " << current->data.id
+             << ", Nama: " << current->data.nama
              << ", Jumlah: " << current->data.qty << endl;
         current = current->next;
     }
@@ -170,7 +172,7 @@ void inputMenutambahan() {
         if (id >= 1 && id <= jumlahMenu) {
             int qty = getValidIntegerInput("Masukkan jumlah pesanan: ");
             if (id > 0 && id <= 100) {
-            insertLast(id, qty);
+                insertLast(id, daftarMenu[id - 1].nama, qty);
             } else {
                 cout << "Jumlah tidak valid.\n";
             }

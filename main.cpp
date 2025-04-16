@@ -129,17 +129,21 @@
              qty = getValidIntegerInput("Masukkan jumlah: ");
              if (qty > 0 && qty <= 100) {
                 insertLast(pilihan, qty);
-             } else {
-                 cout << "Jumlah tidak valid.\n";
-             }
-         } else {
-             cout << "ID salah.\n";
-         }
- 
-         cout << "\nTambahkan menu lain? (y/n): ";
-         cin >> lanjut;
-     } while (lanjut == 'y' || lanjut == 'Y');
- }
+            } else {
+                cout << "Jumlah tidak valid.\n";
+            }
+        } else {
+            cout << "ID salah.\n";
+        }
+        do {
+            lanjut = getValidIntegerInput("\nTambahkan menu lain? (1 untuk tambah / 0 untuk kembali): ");
+            if (lanjut != 1 && lanjut != 0) {
+                cout << "Pilihan tidak valid.\n";
+            }
+        } while (lanjut != 1 && lanjut != 0);
+
+    } while (lanjut == 1);
+}
 
 void tampilkanKeranjang() {
     node* current = head;

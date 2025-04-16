@@ -162,26 +162,6 @@ void tampilkanKeranjang() {
     }
 }
 
-void inputMenutambahan() {
-    int choice;
-    do
-    {
-        int id = getValidIntegerInput("Masukkan ID Menu yang ingin dipesan (0 untuk kembali): ");
-        if (id == 0) break;
-        
-        if (id >= 1 && id <= jumlahMenu) {
-            int qty = getValidIntegerInput("Masukkan jumlah pesanan: ");
-            if (id > 0 && id <= 100) {
-                insertLast(id, daftarMenu[id - 1].nama, qty);
-            } else {
-                cout << "Jumlah tidak valid.\n";
-            }
-        } else {
-            cout << "ID salah.\n";
-        }
-    } while (choice != 0);
-}
-
 void removebyId(int id) {
     node *current = head;
     while (current) {
@@ -204,7 +184,7 @@ void removebyId(int id) {
         current = current->next;
     }
     cout << "Pesanan atas ID " << id << " tidak ditemukan\n";
-}
+}              
 
  //==========KERANJANG==========//
  void keranjang() {
@@ -225,7 +205,7 @@ void removebyId(int id) {
         choice = getValidIntegerInput("\nMasukkan pilihan : ");
 
         if (choice == 1) {
-            inputMenutambahan();
+            tampilkanDaftarMenu();
         }
         if (choice == 2) {
             int id;

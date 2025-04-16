@@ -106,28 +106,28 @@
  int jumlahPesanan = 0;
  
  void tampilkanDaftarMenu() {
-     int pilihan, qty;
-     char lanjut;
- 
-     do {
-         clearScreen();
-         cout << "---------------Daftar Menu-------------\n\n";
-         cout << "ID\tNama Makanan\t\tHarga\n";
-         cout << "---------------------------------------\n";
- 
-         for (int i = 0; i < jumlahMenu; i++) {
-             cout << daftarMenu[i].id << "\t" 
-                  << daftarMenu[i].nama << "\t\tRp " 
-                  << daftarMenu[i].harga << endl;
-         }
- 
-         pilihan = getValidIntegerInput("\nMasukkan ID menu yang dipilih (0 untuk kembali): ");
- 
-         if (pilihan == 0) break;
- 
-         if (pilihan >= 1 && pilihan <= jumlahMenu) {
-             qty = getValidIntegerInput("Masukkan jumlah: ");
-             if (qty > 0 && qty <= 100) {
+    int pilihan, qty;
+    int lanjut;
+
+    do {
+        clearScreen();
+        cout << "---------------Daftar Menu-------------\n\n";
+        cout << "ID\tNama Makanan\t\tHarga\n";
+        cout << "---------------------------------------\n";
+
+        for (int i = 0; i < jumlahMenu; i++) {
+            cout << daftarMenu[i].id << "\t" 
+                 << daftarMenu[i].nama << "\t\tRp " 
+                 << daftarMenu[i].harga << endl;
+        }
+
+        pilihan = getValidIntegerInput("\nMasukkan ID menu yang dipilih (0 untuk kembali): ");
+
+        if (pilihan == 0) break;
+
+        if (pilihan >= 1 && pilihan <= jumlahMenu) {
+            qty = getValidIntegerInput("Masukkan jumlah: ");
+            if (qty > 0 && qty <= 100) {
                 insertLast(pilihan, qty);
             } else {
                 cout << "Jumlah tidak valid.\n";
@@ -145,6 +145,7 @@
     } while (lanjut == 1);
 }
 
+
 void tampilkanKeranjang() {
     node* current = head;
     int i = 1;
@@ -160,9 +161,23 @@ void tampilkanKeranjang() {
 }
 
 void inputMenutambahan() {
-    int id = getValidIntegerInput("Masukkan ID Menu yang ingin dipesan: ");
-    int qty = getValidIntegerInput("Masukkan jumlah pesanan: ");
-    insertLast(id, qty);
+    int choice;
+    do
+    {
+        int id = getValidIntegerInput("Masukkan ID Menu yang ingin dipesan (0 untuk kembali): ");
+        if (id == 0) break;
+        
+        if (id >= 1 && id <= jumlahMenu) {
+            int qty = getValidIntegerInput("Masukkan jumlah pesanan: ");
+            if (id > 0 && id <= 100) {
+            insertLast(id, qty);
+            } else {
+                cout << "Jumlah tidak valid.\n";
+            }
+        } else {
+            cout << "ID salah.\n";
+        }
+    } while (choice != 0);
 }
 
 void removebyId(int id) {

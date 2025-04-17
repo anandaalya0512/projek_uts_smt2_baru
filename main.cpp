@@ -350,9 +350,6 @@ void pembayaranEwallet(double totalHarga) {
             cout << "Pilihan tidak valid!\n";
         }
     }
-    
-    
-    system("pause");
 }
 
 void pembayaran() {
